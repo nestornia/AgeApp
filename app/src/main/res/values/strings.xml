@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AgeApp</string>
+    <string name="user_input">Input your age my boy</string>
+    <string name="user_age">Your age is: </string>
+</resources>
