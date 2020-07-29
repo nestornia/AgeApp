@@ -2,18 +2,19 @@ package com.example.ageapp.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ToggleButton;
 
 import com.example.ageapp.databinding.ActivityMainBinding;
 import com.example.ageapp.viewmodel.HomeViewModel;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.Locale;
+
+public class MainActivity extends AppCompatActivity {
 
     private HomeViewModel homeViewModel;
     private ActivityMainBinding binding;
@@ -21,36 +22,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(LayoutInflater.from(this));
         View view = binding.getRoot();
         setContentView(view);
         homeViewModel = new ViewModelProvider.NewInstanceFactory().create(HomeViewModel.class);
+        homeViewModel.getDisplayValue().observe(this, integer -> binding.userYear.setText(String.format(Locale.getDefault(), "%d", integer)));
 
-        SwitchMaterial toggle_btn = binding.switchTheme;
-
-        toggle_btn.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (toggle_btn.isChecked()) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            } else {
+        binding.switchTheme.setOnCheckedChangeListener((compoundButton, b) -> {
+            if ( binding.switchTheme.isChecked()) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         });
 
-
-
-    }
-
-    private void setAgeButtonsListener(ConstraintLayout constraintLayout) {
-        for (int i = 0; i < constraintLayout.getChildCount(); i++) {
-            final View child = constraintLayout.getChildAt(i);
-            if (child instanceof ToggleButton) {
-                child.setOnClickListener(this);
+        binding.submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                homeViewModel.returnYear(Integer.parseInt(String.valueOf(binding.ageInput.getText())));
             }
-        }
+        });
     }
 
-    @Override
-    public void onClick(View view) {
 
-    }
 }

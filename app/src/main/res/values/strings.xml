@@ -2,4 +2,9 @@
     <string name="app_name">AgeApp</string>
     <string name="user_input">Input your age my boy</string>
     <string name="user_age">Your age is: </string>
+    <string name="switch_the_theme">Switch the theme</string>
+    <string name="submit">Submit</string>
+    <string name="name">Name</string>
+    <string name="todo">TODO</string>
+    <string name="time">Time</string>
 </resources>
